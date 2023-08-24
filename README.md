@@ -22,7 +22,7 @@ Once the plugin is activated, it will automatically capture the registration sou
 
 ## Compatibility
 
-This plugin is tested and compatible with WordPress [version].
+This plugin is tested and compatible with WordPress 6.2.
 
 ## Contributing
 

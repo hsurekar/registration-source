@@ -1,0 +1,14 @@
+# Ignore .bak files
+*.bak
+
+# Ignore a directory named "backup"
+backup/
+
+# Ignore all .log files
+*.log
+
+# Ignore specific files
+file_to_ignore.txt
+
+# Ignore a directory and its contents
+my_temp_folder/

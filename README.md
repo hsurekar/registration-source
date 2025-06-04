@@ -11,7 +11,7 @@ The Registration Source Plugin is a WordPress plugin that captures and displays 
 
 ## Installation
 
-1. Download the plugin ZIP file from the [Releases](https://github.com/your-username/registration-source-plugin/releases) page.
+1. Download the plugin ZIP file from the [Releases](https://github.com/hsurekar/registration-source/releases) page.
 2. In your WordPress admin dashboard, go to "Plugins" -> "Add New".
 3. Click the "Upload Plugin" button and upload the downloaded ZIP file.
 4. Activate the plugin.
@@ -22,15 +22,15 @@ Once the plugin is activated, it will automatically capture the registration sou
 
 ## Compatibility
 
-This plugin is tested and compatible with WordPress [version].
+This plugin is tested and compatible with WordPress 6.2.
 
 ## Contributing
 
-Contributions are welcome! If you find any issues or want to improve the plugin, please submit a [Pull Request](https://github.com/your-username/registration-source-plugin/pulls).
+Contributions are welcome! If you find any issues or want to improve the plugin, please submit a [Pull Request](https://github.com/hsurekar/registration-source/pulls).
 
 ## Support
 
-For any questions or issues, please create a [new issue](https://github.com/your-username/registration-source-plugin/issues).
+For any questions or issues, please create a [new issue](https://github.com/hsurekar/registration-source/issues).
 
 ## License
 

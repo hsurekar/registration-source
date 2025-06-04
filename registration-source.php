@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Registration Source
-Plugin URI: https://github.com/your-username/registration-source
+Plugin URI: https://github.com/hsurekar/registration-source
 Description: Track and analyze user registration sources in WordPress
 Version: 1.1.0
 Requires at least: 5.0

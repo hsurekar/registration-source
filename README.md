@@ -22,7 +22,7 @@ Once the plugin is activated, it will automatically capture the registration sou
 
 ## Compatibility
 
-This plugin is tested and compatible with WordPress 6.2.
+This plugin is tested and compatible with WordPress 6.4.
 
 ## Contributing
 
@@ -35,3 +35,11 @@ For any questions or issues, please create a [new issue](https://github.com/hsur
 ## License
 
 This plugin is released under the [MIT License](LICENSE).
+
+## Changelog
+
+### 1.1.0
+- Initial release with core functionality
+- Support for tracking registration sources
+- Admin interface for viewing registration statistics
+- REST API integration

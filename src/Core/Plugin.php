@@ -32,8 +32,8 @@ class Plugin {
     private function register_hooks() {
         add_action('init', [$this, 'init']);
         add_action('plugins_loaded', [$this, 'load_textdomain']);
-        add_action('register_form', [$this, 'add_registration_source_field']);
-        add_action('user_register', [$this, 'save_registration_source'], 10, 2);
+        add_action('register_form', [$this, 'regsource_add_registration_source_field']);
+        add_action('user_register', [$this, 'regsource_save_registration_source'], 10, 2);
         add_action('xmlrpc_call', [$this, 'handle_xmlrpc_registration']);
         
         // Register activation and deactivation hooks
@@ -53,12 +53,12 @@ class Plugin {
         );
     }
     
-    public function add_registration_source_field() {
+    public function regsource_add_registration_source_field() {
         wp_nonce_field('registration_source_nonce', 'registration_source_nonce');
         echo '<input type="hidden" name="registration_source" value="' . esc_attr($this->default_source) . '" />';
     }
     
-    public function save_registration_source($user_id, $source = '') {
+    public function regsource_save_registration_source($user_id, $source = '') {
         if (!$this->validate_registration_request($user_id)) {
             return;
         }
@@ -89,7 +89,7 @@ class Plugin {
     
     private function sanitize_source($source) {
         $source = sanitize_text_field($source ?: $this->default_source);
-        $allowed_sources = $this->get_allowed_sources();
+        $allowed_sources = $this->regsource_get_allowed_sources();
         
         return isset($allowed_sources[$source]) ? $source : null;
     }
@@ -98,12 +98,12 @@ class Plugin {
         if ($method === 'wp.register') {
             $source = 'xml-rpc';
             add_action('user_register', function($user_id) use ($source) {
-                $this->save_registration_source($user_id, $source);
+                $this->regsource_save_registration_source($user_id, $source);
             });
         }
     }
     
-    public function get_allowed_sources() {
+    public function regsource_get_allowed_sources() {
         $default_sources = [
             'native' => __('Native Registration', 'registration-source'),
             'xml-rpc' => __('XML-RPC', 'registration-source'),
@@ -115,11 +115,11 @@ class Plugin {
         return (array) apply_filters('registration_source_allowed_sources', $default_sources);
     }
     
-    public function get_registration_source($user_id) {
+    public function regsource_get_registration_source($user_id) {
         return get_user_meta($user_id, 'registration_source', true) ?: $this->default_source;
     }
     
-    public function get_version() {
+    public function regsource_get_version() {
         return $this->version;
     }
     

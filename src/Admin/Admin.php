@@ -14,16 +14,16 @@ class Admin {
     
     private function init() {
         add_action('admin_init', [$this, 'register_settings']);
-        add_action('admin_menu', [$this, 'add_menu_pages']);
+        add_action('admin_menu', [$this, 'regsource_add_menu_pages']);
         add_action('admin_enqueue_scripts', [$this, 'enqueue_assets']);
-        add_action('wp_dashboard_setup', [$this, 'add_dashboard_widget']);
+        add_action('wp_dashboard_setup', [$this, 'regsource_add_dashboard_widget']);
         
         // Users list columns
-        add_filter('manage_users_columns', [$this, 'add_registration_source_column']);
+        add_filter('manage_users_columns', [$this, 'regsource_add_registration_source_column']);
         add_filter('manage_users_custom_column', [$this, 'display_registration_source_column'], 10, 3);
         
         // Bulk actions
-        add_filter('bulk_actions-users', [$this, 'add_bulk_actions']);
+        add_filter('bulk_actions-users', [$this, 'regsource_add_bulk_actions']);
         add_filter('handle_bulk_actions-users', [$this, 'handle_bulk_actions'], 10, 3);
     }
     
@@ -57,7 +57,7 @@ class Admin {
         ]);
     }
     
-    public function add_menu_pages() {
+    public function regsource_add_menu_pages() {
         add_options_page(
             __('Registration Source Settings', 'registration-source'),
             __('Registration Source', 'registration-source'),
@@ -126,7 +126,7 @@ class Admin {
                 ?>
             </form>
             
-            <?php if ($this->get_option('enable_statistics')): ?>
+            <?php if ($this->regsource_get_option('enable_statistics')): ?>
             <div class="registration-source-stats">
                 <h2><?php _e('Registration Statistics', 'registration-source'); ?></h2>
                 <div id="registration-source-chart"></div>
@@ -144,7 +144,7 @@ class Admin {
     public function render_checkbox_field($args) {
         $option_name = $args['label_for'];
         $description = $args['description'];
-        $value = $this->get_option($option_name);
+        $value = $this->regsource_get_option($option_name);
         
         ?>
         <label>
@@ -167,8 +167,8 @@ class Admin {
         return $sanitized;
     }
     
-    public function add_dashboard_widget() {
-        if (!$this->get_option('enable_statistics')) {
+    public function regsource_add_dashboard_widget() {
+        if (!$this->regsource_get_option('enable_statistics')) {
             return;
         }
         
@@ -180,7 +180,7 @@ class Admin {
     }
     
     public function render_dashboard_widget() {
-        $stats = $this->get_registration_stats();
+        $stats = $this->regsource_get_registration_stats();
         if (empty($stats)) {
             echo '<p>' . esc_html__('No registration data available.', 'registration-source') . '</p>';
             return;
@@ -200,7 +200,7 @@ class Admin {
                 <tbody>
                     <?php foreach ($stats as $source => $data): ?>
                     <tr>
-                        <td><?php echo esc_html($this->get_source_label($source)); ?></td>
+                        <td><?php echo esc_html($this->regsource_get_source_label($source)); ?></td>
                         <td><?php echo esc_html($data['count']); ?></td>
                         <td><?php echo $data['last_registration'] ? esc_html(date_i18n(get_option('date_format'), strtotime($data['last_registration']))) : '—'; ?></td>
                     </tr>
@@ -211,7 +211,7 @@ class Admin {
         <?php
     }
     
-    private function get_registration_stats() {
+    private function regsource_get_registration_stats() {
         global $wpdb;
         
         $table_name = $wpdb->prefix . 'registration_source_stats';
@@ -232,17 +232,17 @@ class Admin {
         return $stats;
     }
     
-    private function get_source_label($source) {
+    private function regsource_get_source_label($source) {
         $sources = $this->plugin->get_allowed_sources();
         return isset($sources[$source]) ? $sources[$source] : $source;
     }
     
-    private function get_option($key) {
+    private function regsource_get_option($key) {
         $options = get_option('registration_source_settings', []);
         return isset($options[$key]) ? $options[$key] : false;
     }
     
-    public function add_registration_source_column($columns) {
+    public function regsource_add_registration_source_column($columns) {
         if (current_user_can('manage_options')) {
             $columns['registration_source'] = __('Registration Source', 'registration-source');
         }
@@ -252,12 +252,12 @@ class Admin {
     public function display_registration_source_column($value, $column_name, $user_id) {
         if ($column_name === 'registration_source' && current_user_can('manage_options')) {
             $source = $this->plugin->get_registration_source($user_id);
-            return esc_html($this->get_source_label($source));
+            return esc_html($this->regsource_get_source_label($source));
         }
         return $value;
     }
     
-    public function add_bulk_actions($actions) {
+    public function regsource_add_bulk_actions($actions) {
         $actions['delete_registration_source'] = __('Delete Registration Source', 'registration-source');
         return $actions;
     }

@@ -1,0 +1,74 @@
+.registration-source-stats {
+    margin-top: 2rem;
+    
+    #registration-source-chart {
+        height: 400px;
+        max-width: 800px;
+        margin: 2rem 0;
+    }
+    
+    table {
+        max-width: 800px;
+        
+        th {
+            font-weight: 600;
+        }
+        
+        td, th {
+            padding: 12px;
+        }
+    }
+}
+
+.registration-source-widget {
+    #registration-source-widget-chart {
+        height: 200px;
+        margin-bottom: 1rem;
+    }
+    
+    table {
+        margin-top: 1rem;
+        
+        th {
+            font-weight: 600;
+            font-size: 0.9em;
+        }
+        
+        td {
+            font-size: 0.9em;
+        }
+    }
+}
+
+.wp-list-table {
+    .column-registration_source {
+        width: 15%;
+    }
+}
+
+.settings_page_registration-source-settings {
+    .form-table {
+        th {
+            width: 250px;
+        }
+        
+        label {
+            display: inline-block;
+            margin-bottom: 0.5rem;
+        }
+    }
+    
+    .registration-source-stats {
+        background: #fff;
+        padding: 1.5rem;
+        border: 1px solid #ccd0d4;
+        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+        margin-top: 2rem;
+        
+        h2 {
+            margin-top: 0;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+    }
+} 

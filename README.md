@@ -39,7 +39,11 @@ This plugin is released under the [MIT License](LICENSE).
 ## Changelog
 
 ### 1.1.0
-- Initial release with core functionality
-- Support for tracking registration sources
-- Admin interface for viewing registration statistics
-- REST API integration
+- Fixed function naming convention to use proper prefixes
+- Updated WordPress compatibility to version 6.4
+- Added proper changelog documentation
+- Fixed version numbers to be consistent across files
+- Improved code organization and security
+- Added REST API integration
+- Added admin interface for viewing registration statistics
+- Added support for tracking registration sources

@@ -6,8 +6,8 @@ Description: Track and analyze user registration sources in WordPress
 Version: 1.1.0
 Requires at least: 5.0
 Requires PHP: 7.0
-Author: Your Name
-Author URI: https://your-website.com
+Author: hsurekar
+Author URI: https://github.com/hsurekar/
 License: MIT
 License URI: https://opensource.org/licenses/MIT
 Text Domain: registration-source

@@ -4,6 +4,8 @@
 
 Registration Source is a WordPress plugin that captures and displays the registration source for users who register on your website. It provides functionality to track whether users registered via the native registration form, XML-RPC, or REST API.
 
+**Author:** [hsurekar](https://github.com/hsurekar/)
+
 ## Features
 
 - Captures and stores the registration source for each user.

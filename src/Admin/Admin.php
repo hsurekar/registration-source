@@ -128,7 +128,7 @@ class Admin {
             
             <?php if ($this->regsource_get_option('enable_statistics')): ?>
             <div class="registration-source-stats">
-                <h2><?php _e('Registration Statistics', 'registration-source'); ?></h2>
+                <h2><?php esc_html_e('Registration Statistics', 'registration-source'); ?></h2>
                 <div id="registration-source-chart"></div>
                 <?php $this->render_statistics_table(); ?>
             </div>
@@ -192,9 +192,9 @@ class Admin {
             <table class="widefat">
                 <thead>
                     <tr>
-                        <th><?php _e('Source', 'registration-source'); ?></th>
-                        <th><?php _e('Count', 'registration-source'); ?></th>
-                        <th><?php _e('Last Registration', 'registration-source'); ?></th>
+                        <th><?php esc_html_e('Source', 'registration-source'); ?></th>
+                        <th><?php esc_html_e('Count', 'registration-source'); ?></th>
+                        <th><?php esc_html_e('Last Registration', 'registration-source'); ?></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -215,7 +215,8 @@ class Admin {
         global $wpdb;
         
         $table_name = $wpdb->prefix . 'registration_source_stats';
-        $results = $wpdb->get_results("SELECT * FROM $table_name ORDER BY count DESC", ARRAY_A);
+        $query = $wpdb->prepare("SELECT * FROM {$table_name} ORDER BY count DESC");
+        $results = $wpdb->get_results($query, ARRAY_A);
         
         if (!$results) {
             return [];

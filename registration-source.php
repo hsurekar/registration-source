@@ -57,7 +57,7 @@ register_activation_hook(__FILE__, function() {
     if (!version_compare(PHP_VERSION, '7.0', '>=')) {
         deactivate_plugins(plugin_basename(__FILE__));
         wp_die(
-            __('Registration Source requires PHP 7.0 or higher.', 'registration-source'),
+            esc_html__('Registration Source requires PHP 7.0 or higher.', 'registration-source'),
             'Plugin Activation Error',
             ['back_link' => true]
         );
@@ -87,6 +87,7 @@ register_uninstall_hook(__FILE__, function() {
         delete_metadata('user', 0, 'registration_source', '', true);
         
         // Drop custom tables
-        $wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}registration_source_stats");
+        $table = $wpdb->prefix . 'registration_source_stats';
+        $wpdb->query( "DROP TABLE IF EXISTS `{$table}`" );
     }
 }); 

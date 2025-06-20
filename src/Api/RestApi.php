@@ -112,7 +112,8 @@ class RestApi {
         global $wpdb;
         
         $table_name = $wpdb->prefix . 'registration_source_stats';
-        $results = $wpdb->get_results("SELECT * FROM $table_name ORDER BY count DESC", ARRAY_A);
+        $query = $wpdb->prepare("SELECT * FROM {$table_name} ORDER BY count DESC");
+        $results = $wpdb->get_results($query, ARRAY_A);
         
         if (!$results) {
             return new WP_REST_Response([

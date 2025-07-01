@@ -58,7 +58,7 @@ register_activation_hook(__FILE__, function() {
         deactivate_plugins(plugin_basename(__FILE__));
         wp_die(
             esc_html__('Registration Source requires PHP 7.0 or higher.', 'registration-source'),
-            'Plugin Activation Error',
+            esc_html__('Plugin Activation Error', 'registration-source'),
             ['back_link' => true]
         );
     }

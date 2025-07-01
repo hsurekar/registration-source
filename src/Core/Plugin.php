@@ -31,7 +31,6 @@ class Plugin {
     
     private function register_hooks() {
         add_action('init', [$this, 'init']);
-        add_action('plugins_loaded', [$this, 'load_textdomain']);
         add_action('register_form', [$this, 'regsource_add_registration_source_field']);
         add_action('user_register', [$this, 'regsource_save_registration_source'], 10, 2);
         add_action('xmlrpc_call', [$this, 'handle_xmlrpc_registration']);
@@ -43,14 +42,6 @@ class Plugin {
     
     public function init() {
         do_action('registration_source_init', $this);
-    }
-    
-    public function load_textdomain() {
-        load_plugin_textdomain(
-            'registration-source',
-            false,
-            dirname(plugin_basename(REGISTRATION_SOURCE_PLUGIN_FILE)) . '/languages'
-        );
     }
     
     public function regsource_add_registration_source_field() {

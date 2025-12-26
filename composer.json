@@ -2,7 +2,7 @@
     "name": "registration-source/plugin",
     "description": "WordPress plugin to track user registration sources",
     "type": "wordpress-plugin",
-    "license": "MIT",
+    "license": "GPL-2.0-or-later",
     "require": {
         "php": ">=7.4",
         "composer/installers": "^2.0"

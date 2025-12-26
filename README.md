@@ -36,7 +36,7 @@ For any questions or issues, please create a [new issue](https://github.com/hsur
 
 ## License
 
-This plugin is released under the [MIT License](LICENSE).
+This plugin is released under the [GNU General Public License v2.0 or later](LICENSE).
 
 ## Changelog
 

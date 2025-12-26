@@ -141,9 +141,11 @@ class RestApi {
     public function get_statistics(WP_REST_Request $request) {
         global $wpdb;
         
+        // Table name is safely constructed from $wpdb->prefix (WordPress controlled) 
+        // and our constant table name, so it's safe to use directly
         $table_name = $wpdb->prefix . 'registration_source_stats';
-        $query = $wpdb->prepare("SELECT * FROM {$table_name} ORDER BY count DESC");
-        $results = $wpdb->get_results($query, ARRAY_A);
+        $query = "SELECT * FROM `{$table_name}` ORDER BY count DESC";
+        $results = $wpdb->get_results($wpdb->prepare($query), ARRAY_A);
         
         if (!$results) {
             return new WP_REST_Response([

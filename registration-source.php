@@ -93,7 +93,9 @@ function registration_source_uninstall() {
         // Table name is safely constructed from $wpdb->prefix (WordPress controlled) 
         // and our constant table name, so it's safe to use directly
         $table_name = $wpdb->prefix . 'registration_source_stats';
-        $wpdb->query("DROP TABLE IF EXISTS `{$table_name}`");
+        // Prepare table name, ensure it is only the prefix+constant
+$drop_query = "DROP TABLE IF EXISTS `{$table_name}`";
+$wpdb->query($drop_query);
     }
 }
 

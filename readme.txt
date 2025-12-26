@@ -2,10 +2,13 @@
 Contributors: hsurekar
 Tags: registration, user, source, analytics, tracking
 Requires at least: 5.0
-Tested up to: 6.8
+Tested up to: 6.9
 Stable tag: 1.1.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
+
+== Short Description ==
+Easily track, display, and analyze the source of each user registration in WordPress. See where users signed up—native, REST API, XML-RPC, and more—from your dashboard.
 
 == Description ==
 

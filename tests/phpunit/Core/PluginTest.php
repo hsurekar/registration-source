@@ -71,7 +71,7 @@ class PluginTest extends WP_UnitTestCase {
         
         // Check if the stats table exists
         $table_name = $wpdb->prefix . 'registration_source_stats';
-        $table_exists = $wpdb->get_var("SHOW TABLES LIKE '$table_name'") === $table_name;
+        $table_exists = $wpdb->get_var($wpdb->prepare("SHOW TABLES LIKE %s", $table_name)) === $table_name;
         
         $this->assertTrue($table_exists);
         

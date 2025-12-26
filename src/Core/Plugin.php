@@ -78,7 +78,7 @@ class Plugin {
         }
         
         if (!isset($_POST['registration_source_nonce']) || 
-            !wp_verify_nonce($_POST['registration_source_nonce'], 'registration_source_nonce')) {
+            !wp_verify_nonce(wp_unslash($_POST['registration_source_nonce']), 'registration_source_nonce')) {
             return false;
         }
         
@@ -189,6 +189,8 @@ class Plugin {
     private function update_statistics($source) {
         global $wpdb;
         
+        // Table name is safely constructed from $wpdb->prefix (WordPress controlled) 
+        // and our constant table name, so it's safe to use directly
         $table_name = $wpdb->prefix . 'registration_source_stats';
         
         // Check if table exists
@@ -203,8 +205,9 @@ class Plugin {
         }
         
         // Insert or update statistics
+        // Use prepare() for the user input ($source), table name is safe
         $wpdb->query($wpdb->prepare(
-            "INSERT INTO {$table_name} (source, count, last_registration) 
+            "INSERT INTO `{$table_name}` (source, count, last_registration) 
              VALUES (%s, 1, NOW()) 
              ON DUPLICATE KEY UPDATE count = count + 1, last_registration = NOW()",
             $source

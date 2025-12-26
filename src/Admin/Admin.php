@@ -247,7 +247,8 @@ class Admin {
         // and our constant table name, so it's safe to use directly
         $table_name = $wpdb->prefix . 'registration_source_stats';
         $query = "SELECT * FROM `{$table_name}` ORDER BY count DESC";
-        $results = $wpdb->get_results($wpdb->prepare($query), ARRAY_A);
+        // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table name is built safely from $wpdb->prefix + static string
+$results = $wpdb->get_results($query, ARRAY_A);
         
         if (!$results) {
             return [];

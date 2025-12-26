@@ -3,8 +3,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
     entry: {
-        admin: './assets/js/src/admin.js',
-        dashboard: './assets/js/src/dashboard.js'
+        admin: './assets/js/src/admin.js'
     },
     output: {
         filename: '[name].bundle.js',

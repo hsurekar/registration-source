@@ -129,7 +129,7 @@ class Admin {
             <?php if ($this->regsource_get_option('enable_statistics')): ?>
             <div class="registration-source-stats">
                 <h2><?php esc_html_e('Registration Statistics', 'registration-source'); ?></h2>
-                <div id="registration-source-chart"></div>
+                <canvas id="registration-source-chart"></canvas>
                 <?php $this->render_statistics_table(); ?>
             </div>
             <?php endif; ?>
@@ -188,7 +188,7 @@ class Admin {
         
         ?>
         <div class="registration-source-widget">
-            <div id="registration-source-widget-chart"></div>
+            <canvas id="registration-source-widget-chart"></canvas>
             <table class="widefat">
                 <thead>
                     <tr>
@@ -208,6 +208,35 @@ class Admin {
                 </tbody>
             </table>
         </div>
+        <?php
+    }
+    
+    public function render_statistics_table() {
+        $stats = $this->regsource_get_registration_stats();
+        if (empty($stats)) {
+            echo '<p>' . esc_html__('No statistics available.', 'registration-source') . '</p>';
+            return;
+        }
+        
+        ?>
+        <table class="widefat">
+            <thead>
+                <tr>
+                    <th><?php esc_html_e('Source', 'registration-source'); ?></th>
+                    <th><?php esc_html_e('Count', 'registration-source'); ?></th>
+                    <th><?php esc_html_e('Last Registration', 'registration-source'); ?></th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($stats as $source => $data): ?>
+                <tr>
+                    <td><?php echo esc_html($this->regsource_get_source_label($source)); ?></td>
+                    <td><?php echo esc_html($data['count']); ?></td>
+                    <td><?php echo $data['last_registration'] ? esc_html(date_i18n(get_option('date_format'), strtotime($data['last_registration']))) : '—'; ?></td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
         <?php
     }
     

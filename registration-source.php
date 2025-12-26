@@ -72,8 +72,11 @@ register_deactivation_hook(__FILE__, function() {
     \RegistrationSource\Core\Plugin::get_instance()->deactivate();
 });
 
-// Register uninstall hook
-register_uninstall_hook(__FILE__, function() {
+/**
+ * Uninstall hook callback.
+ * This function is called when the plugin is uninstalled.
+ */
+function registration_source_uninstall() {
     // Only delete data if the setting is enabled
     $settings = get_option('registration_source_settings', []);
     if (!empty($settings['purge_data_on_uninstall'])) {
@@ -87,7 +90,12 @@ register_uninstall_hook(__FILE__, function() {
         delete_metadata('user', 0, 'registration_source', '', true);
         
         // Drop custom tables
-        $table = $wpdb->prefix . 'registration_source_stats';
-        $wpdb->query( "DROP TABLE IF EXISTS `{$table}`" );
+        // Table name is safely constructed from $wpdb->prefix (WordPress controlled) 
+        // and our constant table name, so it's safe to use directly
+        $table_name = $wpdb->prefix . 'registration_source_stats';
+        $wpdb->query("DROP TABLE IF EXISTS `{$table_name}`");
     }
-}); 
+}
+
+// Register uninstall hook
+register_uninstall_hook(__FILE__, 'registration_source_uninstall'); 

@@ -57,6 +57,13 @@ class Plugin {
         $source = $this->sanitize_source($source);
         if ($source) {
             update_user_meta($user_id, 'registration_source', $source);
+            
+            // Update statistics table if enabled
+            $settings = get_option('registration_source_settings', []);
+            if (!empty($settings['enable_statistics'])) {
+                $this->update_statistics($source);
+            }
+            
             do_action('registration_source_saved', $user_id, $source);
         }
     }
@@ -114,6 +121,23 @@ class Plugin {
         return $this->version;
     }
     
+    // Public wrapper methods for external access (without regsource_ prefix)
+    public function get_allowed_sources() {
+        return $this->regsource_get_allowed_sources();
+    }
+    
+    public function get_registration_source($user_id) {
+        return $this->regsource_get_registration_source($user_id);
+    }
+    
+    public function save_registration_source($user_id, $source = '') {
+        return $this->regsource_save_registration_source($user_id, $source);
+    }
+    
+    public function get_version() {
+        return $this->regsource_get_version();
+    }
+    
     public function activate() {
         if (!get_option('registration_source_version')) {
             $this->create_tables();
@@ -155,5 +179,35 @@ class Plugin {
         ];
         
         update_option('registration_source_settings', $default_options);
+    }
+    
+    /**
+     * Update statistics table with registration source data.
+     * 
+     * @param string $source The registration source to update.
+     */
+    private function update_statistics($source) {
+        global $wpdb;
+        
+        $table_name = $wpdb->prefix . 'registration_source_stats';
+        
+        // Check if table exists
+        $table_exists = $wpdb->get_var($wpdb->prepare(
+            "SHOW TABLES LIKE %s",
+            $table_name
+        ));
+        
+        if (!$table_exists) {
+            // Table doesn't exist yet, create it
+            $this->create_tables();
+        }
+        
+        // Insert or update statistics
+        $wpdb->query($wpdb->prepare(
+            "INSERT INTO {$table_name} (source, count, last_registration) 
+             VALUES (%s, 1, NOW()) 
+             ON DUPLICATE KEY UPDATE count = count + 1, last_registration = NOW()",
+            $source
+        ));
     }
 } 

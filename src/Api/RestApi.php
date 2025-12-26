@@ -23,10 +23,12 @@ class RestApi {
     
     public function register_routes() {
         // Register new user
+        // Note: This endpoint allows public registration if WordPress registration is enabled.
+        // It respects the 'users_can_register' setting and includes validation to prevent abuse.
         register_rest_route($this->namespace, '/register', [
             'methods' => WP_REST_Server::CREATABLE,
             'callback' => [$this, 'register_user'],
-            'permission_callback' => '__return_true',
+            'permission_callback' => [$this, 'check_registration_permissions'],
             'args' => [
                 'username' => [
                     'required' => true,
@@ -106,6 +108,34 @@ class RestApi {
     
     public function check_admin_permissions() {
         return current_user_can('manage_options');
+    }
+    
+    /**
+     * Check if user registration is allowed.
+     * 
+     * This method checks WordPress settings to determine if registration is open.
+     * If registration is disabled in WordPress, only administrators can register users.
+     * If registration is enabled, public registration is allowed (with validation).
+     * 
+     * @return bool|WP_Error True if registration is allowed, WP_Error otherwise.
+     */
+    public function check_registration_permissions() {
+        // Check if registration is enabled in WordPress settings
+        if (!get_option('users_can_register')) {
+            // If registration is disabled, require admin permissions
+            if (!current_user_can('create_users')) {
+                return new WP_Error(
+                    'registration_disabled',
+                    __('User registration is currently disabled.', 'registration-source'),
+                    ['status' => 403]
+                );
+            }
+            return true;
+        }
+        
+        // Registration is enabled - allow public registration
+        // Additional validation will be done in register_user() method
+        return true;
     }
     
     public function get_statistics(WP_REST_Request $request) {
@@ -215,11 +245,29 @@ class RestApi {
     }
     
     public function register_user(WP_REST_Request $request) {
+        // Double-check that registration is allowed (in case settings changed)
+        if (!get_option('users_can_register') && !current_user_can('create_users')) {
+            return new WP_Error(
+                'registration_disabled',
+                __('User registration is currently disabled.', 'registration-source'),
+                ['status' => 403]
+            );
+        }
+        
         $username = $request->get_param('username');
         $email = $request->get_param('email');
         $password = $request->get_param('password');
         $first_name = $request->get_param('first_name');
         $last_name = $request->get_param('last_name');
+
+        // Validate password strength (basic check)
+        if (empty($password) || strlen($password) < 6) {
+            return new WP_Error(
+                'registration_failed',
+                __('Password must be at least 6 characters long.', 'registration-source'),
+                ['status' => 400]
+            );
+        }
 
         // Check if username exists
         if (username_exists($username)) {
